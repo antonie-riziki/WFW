@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Match - WFW</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e9d5ff 50%, #ddd6fe 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .card-stack {
+            position: relative;
+            height: 550px;
+            margin-bottom: 2rem;
+        }
+
+        .job-card {
+            position: absolute;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: grab;
+        }
+
+        .job-card:active {
+            cursor: grabbing;
+        }
+
+        .job-card.swiping-left {
+            transform: translateX(-150%) rotate(-20deg);
+            opacity: 0;
+        }
+
+        .job-card.swiping-right {
+            transform: translateX(150%) rotate(20deg);
+            opacity: 0;
+        }
+
+        .match-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-title {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .job-description {
+            color: #4b5563;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .ai-insight {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .ai-insight-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-insight-text {
+            color: #78350f;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tag {
+            background: #f3e8ff;
+            color: #7c3aed;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .action-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .skip-btn {
+            background: white;
+            color: #ef4444;
+        }
+
+        .skip-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(239, 68, 68, 0.3);
+        }
+
+        .like-btn {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.4);
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .nav-links a {
+            color: #8b5cf6;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 1rem;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .job-card {
+                padding: 2rem;
+            }
+
+            .job-title {
+                font-size: 1.5rem;
+            }
+
+            .action-btn {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Perfect Matches</h1>
+            <p>Swipe right to express interest</p>
+        </div>
+
+        <div class="card-stack" id="card-stack">
+            <!-- Job cards will be dynamically inserted here -->
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn skip-btn" onclick="swipeLeft()">❌</button>
+            <button class="action-btn like-btn" onclick="swipeRight()">❤️</button>
+        </div>
+
+        <div class="nav-links">
+            <a href="/profile">← Edit Profile</a>
+            <a href="/chat">View Connections →</a>
+        </div>
+    </div>
+
+    <script>
+        const jobs = [
+            {
+                title: "Executive Assistant",
+                company: "TechGlobal Inc.",
+                location: "Remote (Worldwide)",
+                match: "94% Match",
+                description: "We're seeking an experienced executive assistant to support our leadership team. Your organizational skills and attention to detail will be invaluable.",
+                aiInsight: "AGI thinks this role aligns perfectly with your skills and goals. Your background in administrative excellence matches their requirements for someone who can manage complex schedules and communications.",
+                tags: ["Remote", "Full-time", "$55k-$75k", "Flexible Hours"]
+            },
+            {
+                title: "Customer Success Manager",
+                company: "CloudVenture",
+                location: "Remote (US & Europe)",
+                match: "89% Match",
+                description: "Join our growing team as a Customer Success Manager. Help our clients achieve their goals while building meaningful relationships.",
+                aiInsight: "Your experience in client relations and problem-solving makes you an excellent candidate. They value professionals who can combine empathy with strategic thinking.",
+                tags: ["Remote", "Full-time", "$60k-$80k", "Growth Opportunity"]
+            },
+            {
+                title: "Operations Coordinator",
+                company: "Digital Innovations",
+                location: "Hybrid (London)",
+                match: "91% Match",
+                description: "We need an operations coordinator to streamline our processes and keep our team running smoothly. Your expertise will drive our efficiency.",
+                aiInsight: "This role leverages your organizational strengths and offers room for professional growth. The company has a strong track record of promoting from within.",
+                tags: ["Hybrid", "Full-time", "£45k-£60k", "Career Development"]
+            },
+            {
+                title: "Project Coordinator",
+                company: "NextGen Solutions",
+                location: "Remote (Global)",
+                match: "87% Match",
+                description: "Support our project teams in delivering exceptional results. Your coordination skills will ensure projects stay on track and teams stay aligned.",
+                aiInsight: "Your attention to detail and communication skills align well with this role. They're looking for someone who can bring order to complexity.",
+                tags: ["Remote", "Full-time", "$50k-$70k", "International Team"]
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function createJobCard(job, index) {
+            return `
+                <div class="job-card" id="card-${index}" style="z-index: ${jobs.length - index};">
+                    <div class="match-badge">${job.match}</div>
+                    <h2 class="job-title">${job.title}</h2>
+                    <div class="company-info">
+                        <span>🏢 ${job.company}</span>
+                        <span>📍 ${job.location}</span>
+                    </div>
+                    <p class="job-description">${job.description}</p>
+                    <div class="ai-insight">
+                        <div class="ai-insight-title">
+                            <span>✨</span>
+                            <span>AI Insight</span>
+                        </div>
+                        <p class="ai-insight-text">${job.aiInsight}</p>
+                    </div>
+                    <div class="tags">
+                        ${job.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadCards() {
+            const cardStack = document.getElementById('card-stack');
+            cardStack.innerHTML = jobs.map((job, index) => createJobCard(job, index)).join('');
+        }
+
+        function swipeLeft() {
+            if (currentIndex >= jobs.length) return;
+            
+            const card = document.getElementById(`card-${currentIndex}`);
+            card.classList.add('swiping-left');
+            
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex >= jobs.length) {
+                    showNoMoreCards();
+                }
+            }, 300);
+        }
+
+        function swipeRight() {
+            if (currentIndex >= jobs.length) return;
+            
+            const card = document.getElementById(`card-${currentIndex}`);
+            card.classList.add('swiping-right');
+            
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex >= jobs.length) {
+                    window.location.href = 'chat.html';
+                }
+            }, 300);
+        }
+
+        function showNoMoreCards() {
+            const cardStack = document.getElementById('card-stack');
+            cardStack.innerHTML = `
+                <div class="job-card" style="text-align: center; padding: 4rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">✨</div>
+                    <h2 style="color: #8b5cf6; margin-bottom: 1rem;">You're all caught up!</h2>
+                    <p style="color: #6b7280; margin-bottom: 2rem;">Check back soon for more opportunities.</p>
+                    <a href="chat.html" style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; text-decoration: none; border-radius: 15px; font-weight: 600;">View Your Connections</a>
+                </div>
+            `;
+        }
+
+        // Initialize
+        loadCards();
+    </script>
+</body>
+</html>

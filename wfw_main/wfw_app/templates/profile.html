@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Setup - WFW</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e9d5ff 50%, #ddd6fe 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .progress-track {
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-card h2 {
+            color: #8b5cf6;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #8b5cf6;
+            background: #f9fafb;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #8b5cf6;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Build Your Profile</h1>
+            <p>Let's showcase your expertise to the world</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-label">
+                <span>Profile Completion</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <form id="profile-form">
+            <div class="form-card">
+                <h2>Personal Information</h2>
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" required oninput="updateProgress()">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" required oninput="updateProgress()">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" oninput="updateProgress()">
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h2>Professional Background</h2>
+                <div class="form-group">
+                    <label for="skills">Your Skills *</label>
+                    <textarea id="skills" placeholder="e.g., Project Management, Customer Relations, Data Entry..." required oninput="updateProgress()"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Years of Experience *</label>
+                    <select id="experience" required onchange="updateProgress()">
+                        <option value="">Select...</option>
+                        <option value="0-2">0-2 years</option>
+                        <option value="3-5">3-5 years</option>
+                        <option value="6-10">6-10 years</option>
+                        <option value="10+">10+ years</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="previous-role">Previous Role</label>
+                    <input type="text" id="previous-role" placeholder="e.g., Executive Secretary" oninput="updateProgress()">
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h2>Work Preferences</h2>
+                <div class="form-group">
+                    <label>Work Type Preferences *</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="work-type" value="remote" onchange="updateProgress()">
+                            <span>Remote</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="work-type" value="hybrid" onchange="updateProgress()">
+                            <span>Hybrid</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="work-type" value="onsite" onchange="updateProgress()">
+                            <span>On-site</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h2>Optional: Portfolio & Photo</h2>
+                <div class="form-group">
+                    <label>Profile Photo</label>
+                    <div class="upload-area" onclick="document.getElementById('photo-upload').click()">
+                        <div class="upload-icon">📸</div>
+                        <p>Click to upload your photo</p>
+                        <input type="file" id="photo-upload" accept="image/*" style="display: none;" onchange="updateProgress()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Portfolio / Resume</label>
+                    <div class="upload-area" onclick="document.getElementById('portfolio-upload').click()">
+                        <div class="upload-icon">📄</div>
+                        <p>Click to upload documents</p>
+                        <input type="file" id="portfolio-upload" accept=".pdf,.doc,.docx" style="display: none;" onchange="updateProgress()">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" onclick="handleSubmit(event)">Complete Profile & Find Matches</button>
+        </form>
+    </div>
+
+    <script>
+        function updateProgress() {
+            const requiredFields = [
+                document.getElementById('name').value,
+                document.getElementById('email').value,
+                document.getElementById('skills').value,
+                document.getElementById('experience').value,
+                document.querySelectorAll('input[name="work-type"]:checked').length > 0
+            ];
+
+            const optionalFields = [
+                document.getElementById('phone').value,
+                document.getElementById('previous-role').value,
+                document.getElementById('photo-upload').files.length > 0,
+                document.getElementById('portfolio-upload').files.length > 0
+            ];
+
+            const requiredComplete = requiredFields.filter(Boolean).length;
+            const optionalComplete = optionalFields.filter(Boolean).length;
+            
+            const totalRequired = requiredFields.length;
+            const totalOptional = optionalFields.length;
+            
+            const progress = ((requiredComplete / totalRequired) * 70) + ((optionalComplete / totalOptional) * 30);
+            
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-percent').textContent = Math.round(progress) + '%';
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            window.location.href = 'match.html';
+        }
+    </script>
+</body>
+</html>

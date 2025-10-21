@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connections - WFW</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e9d5ff 50%, #ddd6fe 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .chat-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            height: 600px;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .connections-list {
+            background: #f9fafb;
+            padding: 1.5rem;
+            overflow-y: auto;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .connection-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .connection-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .connection-item.active {
+            border-color: #8b5cf6;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+        }
+
+        .connection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+
+        .match-score {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .job-title {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .last-message {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .chat-window {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+        }
+
+        .chat-title {
+            font-size: 1.5rem;
+            color: #1f2937;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-confidence {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #92400e;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .confidence-bar {
+            flex: 1;
+            height: 8px;
+            background: #fef3c7;
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 200px;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            border-radius: 10px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            background: #f3f4f6;
+            padding: 1rem 1.25rem;
+            border-radius: 20px;
+            border-top-left-radius: 5px;
+        }
+
+        .message.sent .message-content {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            border-radius: 20px;
+            border-top-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.5rem;
+        }
+
+        .message.sent .message-time {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .chat-input {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .send-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .nav-links a {
+            color: #8b5cf6;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 1rem;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .chat-layout {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .connections-list {
+                max-height: 300px;
+            }
+
+            .chat-messages {
+                min-height: 400px;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Your Connections</h1>
+            <p>Continue the conversation with companies interested in you</p>
+        </div>
+
+        <div class="chat-layout">
+            <div class="connections-list">
+                <div class="connection-item active" onclick="selectConnection(0)">
+                    <div class="connection-header">
+                        <span class="company-name">TechGlobal Inc.</span>
+                        <span class="match-score">94%</span>
+                    </div>
+                    <div class="job-title">Executive Assistant</div>
+                    <div class="last-message">We'd love to schedule a call...</div>
+                </div>
+
+                <div class="connection-item" onclick="selectConnection(1)">
+                    <div class="connection-header">
+                        <span class="company-name">CloudVenture</span>
+                        <span class="match-score">89%</span>
+                    </div>
+                    <div class="job-title">Customer Success Manager</div>
+                    <div class="last-message">Your profile really stood out to us...</div>
+                </div>
+
+                <div class="connection-item" onclick="selectConnection(2)">
+                    <div class="connection-header">
+                        <span class="company-name">Digital Innovations</span>
+                        <span class="match-score">91%</span>
+                    </div>
+                    <div class="job-title">Operations Coordinator</div>
+                    <div class="last-message">Thank you for your interest!</div>
+                </div>
+            </div>
+
+            <div class="chat-window">
+                <div class="chat-header">
+                    <div class="chat-title">TechGlobal Inc. - Executive Assistant</div>
+                    <div class="ai-confidence">
+                        <span>✨ AI Confidence Score:</span>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: 94%;"></div>
+                        </div>
+                        <span>94%</span>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message">
+                        <div class="message-avatar">TG</div>
+                        <div>
+                            <div class="message-content">
+                                Hi! We were really impressed with your profile and experience. Your background in executive support aligns perfectly with what we're looking for.
+                            </div>
+                            <div class="message-time">10:23 AM</div>
+                        </div>
+                    </div>
+
+                    <div class="message sent">
+                        <div class="message-avatar">You</div>
+                        <div>
+                            <div class="message-content">
+                                Thank you so much! I'm very interested in learning more about the role and your company culture.
+                            </div>
+                            <div class="message-time">10:45 AM</div>
+                        </div>
+                    </div>
+
+                    <div class="message">
+                        <div class="message-avatar">TG</div>
+                        <div>
+                            <div class="message-content">
+                                Wonderful! We'd love to schedule a video call with you. Are you available for a 30-minute conversation this week?
+                            </div>
+                            <div class="message-time">11:02 AM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <input type="text" placeholder="Type your message..." id="message-input" onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <a href="match.html">← Back to Matches</a>
+            <a href="profile.html">Edit Profile</a>
+        </div>
+    </div>
+
+    <script>
+        function selectConnection(index) {
+            // Remove active class from all items
+            const items = document.querySelectorAll('.connection-item');
+            items.forEach(item => item.classList.remove('active'));
+            
+            // Add active class to selected item
+            items[index].classList.add('active');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const messagesContainer = document.getElementById('chat-messages');
+                const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                const messageHTML = `
+                    <div class="message sent">
+                        <div class="message-avatar">You</div>
+                        <div>
+                            <div class="message-content">${message}</div>
+                            <div class="message-time">${time}</div>
+                        </div>
+                    </div>
+                `;
+                
+                messagesContainer.insertAdjacentHTML('beforeend', messageHTML);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                input.value = '';
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
