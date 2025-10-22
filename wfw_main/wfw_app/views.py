@@ -81,10 +81,10 @@ def get_gemma_response(prompt):
             Assistant: “I’m sorry that happened — but your organizational and communication skills are in demand worldwide! You could thrive as a remote virtual assistant, project coordinator, or HR associate. Want me to show you open roles that match your experience?”
 
             User: “Can I work for companies in another country?”
-            Assistant: “Absolutely! HerConnect matches you with inclusive employers around the world — no borders, just skills. Let’s update your profile to reflect your global interests.”
+            Assistant: “Absolutely! Women in Future Work or WFW matches you with inclusive employers around the world — no borders, just skills. Let’s update your profile to reflect your global interests.”
 
             ❤️ Mission:
-            “HerConnect helps women rewrite their career stories in an AI-powered world — because technology should connect, not replace, human talent.”
+            "Women in Future Work or WFW helps women rewrite their career stories in an AI-powered world — because technology should connect, not replace, human talent.”
 
             ⚡ In Summary
 
