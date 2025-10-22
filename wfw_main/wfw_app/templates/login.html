@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - WFW</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- {% extends 'navbar.html' %}
+
+{% block content %} -->
+    
     <style>
         * {
             margin: 0;
@@ -193,6 +188,9 @@
     </style>
 </head>
 <body>
+
+    <!-- {% include 'navbar.html' %} -->
+
     <div class="login-container">
         <div class="logo">
             <h1>Women in Future Work</h1>
@@ -218,7 +216,7 @@
                 <button type="submit" class="submit-btn" onclick="handleSignIn(event)">Sign In</button>
             </form>
             <div class="back-link">
-                <a href="index.html">← Back to Home</a>
+                <a href="/">← Back to Home</a>
             </div>
         </div>
 
@@ -244,7 +242,7 @@
                 <button type="submit" class="submit-btn" onclick="handleSignUp(event)">Create Account</button>
             </form>
             <div class="back-link">
-                <a href="index.html">← Back to Home</a>
+                <a href="/">← Back to Home</a>
             </div>
         </div>
     </div>
@@ -268,13 +266,16 @@
 
         function handleSignIn(event) {
             event.preventDefault();
-            window.location.href = 'profile.html';
+            window.location.href = '/profile';
         }
 
         function handleSignUp(event) {
             event.preventDefault();
-            window.location.href = 'profile.html';
+            window.location.href = '/profile';
         }
     </script>
 </body>
 </html>
+
+
+<!-- {% endblock %} -->

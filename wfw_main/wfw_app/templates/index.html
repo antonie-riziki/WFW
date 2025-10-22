@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>As Women in Future Work – Swipe. Match. Work. Worldwide.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% extends 'navbar.html' %}
+
+{% block content %}
+    
+    
     <style>
         * {
             margin: 0;
@@ -21,7 +17,7 @@
             color: #1f2937;
         }
 
-        nav {
+        /* nav {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 1.5rem 2rem;
@@ -71,7 +67,7 @@
             padding: 5rem 2rem;
             text-align: center;
             animation: fadeIn 1s ease-out;
-        }
+        } */
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -245,17 +241,8 @@
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <div class="logo">WFW</div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/match">Match</a></li>
-                <li><a href="/login">Login</a></li>
-            </ul>
-        </div>
-    </nav>
+    
+    <!-- {% include 'navbar.html' %} -->
 
     <div class="hero">
         <h1>Reclaim Your Worth in the Age of AI</h1>
@@ -267,7 +254,7 @@
         </div>
 
         <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=500&fit=crop" alt="Women working remotely in diverse settings">
+            <img src="https://images.fastcompany.com/image/upload/f_webp,c_fit,w_1920,q_auto/wp-cms-2/2024/07/p-1-91160579-3-skills-women-need-to-succeed-in-the-future-of-work.jpg" alt="Women working remotely in diverse settings">
         </div>
     </div>
 
@@ -296,3 +283,7 @@
     </div>
 </body>
 </html>
+
+
+
+{% endblock %}
