@@ -10,5 +10,6 @@ urlpatterns = [
     path('match/', views.match, name="match"),
     path('about/', views.about, name="about"),
     path('chat/', views.chat, name="chat"),
+    path('chatbot-response/', views.chatbot_response, name='chatbot_response'),
 
 ]
