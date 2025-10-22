@@ -8,6 +8,7 @@ import os
 import sys
 import json
 import africastalking
+import openai
 
 
 load_dotenv()
@@ -20,6 +21,21 @@ africastalking.initialize(
     username="EMID",
     api_key=os.getenv("AT_API_KEY")
 )
+
+
+
+
+# client = openai.OpenAI(
+#   api_key=os.environ["ASI_API_KEY"],
+#   base_url="https://inference.asicloud.cudos.org/v1"
+# )
+
+# resp = client.chat.completions.create(
+#   model="google/gemma-3-27b-it",
+#   messages=[{"role":"user","content":"What is the capital of Japan?"}]
+# )
+
+# print(resp.choices[0].message.content)
 
 
 def get_gemini_response(prompt):
